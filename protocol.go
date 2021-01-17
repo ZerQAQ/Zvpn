@@ -1,4 +1,4 @@
-package protocol
+package Zvpn
 
 type Conn interface {
 	//write to the connect
@@ -21,4 +21,4 @@ type Protocol interface {
 	Dial(string) (Conn, error)
 }
 
-var TCP Protocol = &TCPProtocol{}
+//var TCP Protocol = &TCPProtocol{}
