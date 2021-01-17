@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
+	"github.com/ZerQAQ/Zvpn"
 	"github.com/ZerQAQ/Zvpn/lib"
-	"github.com/ZerQAQ/Zvpn/protocol"
 )
 
 const (
@@ -19,14 +19,14 @@ type _AESSession struct {
 	blockMode cipher.BlockMode
 }
 
-func (s _AES) ClientHandShake(conn protocol.Conn) (Encrypter, Decrypter, error) {
+func (s _AES) ClientHandShake(conn Zvpn.Conn) (Zvpn.Encrypter, Zvpn.Decrypter, error) {
 	return s.HandShake(conn)
 }
-func (s _AES) ServerHandShake(conn protocol.Conn) (Encrypter, Decrypter, error) {
+func (s _AES) ServerHandShake(conn Zvpn.Conn) (Zvpn.Encrypter, Zvpn.Decrypter, error) {
 	return s.HandShake(conn)
 }
 
-func (s _AES) HandShake(conn protocol.Conn) (e Encrypter, d Decrypter, err error) {
+func (s _AES) HandShake(conn Zvpn.Conn) (e Zvpn.Encrypter, d Zvpn.Decrypter, err error) {
 	iv := lib.RandomBytes(s.block.BlockSize())
 	if _, err = conn.Write(iv); err != nil {
 		return
@@ -40,7 +40,7 @@ func (s _AES) HandShake(conn protocol.Conn) (e Encrypter, d Decrypter, err error
 	return
 }
 
-func (s _AESSession) Write(conn protocol.Conn, src []byte) (l int, err error) {
+func (s _AESSession) Write(conn Zvpn.Conn, src []byte) (l int, err error) {
 	// check if len(src) is smaller than maxBloNum * blockSize
 	// if not, _Write multiply time
 	bloNum := (len(src)-1)/s.blockMode.BlockSize() + 1
@@ -63,7 +63,7 @@ func (s _AESSession) Write(conn protocol.Conn, src []byte) (l int, err error) {
 }
 
 // len(src) must smaller than maxBloNum * blockSize
-func (s _AESSession) _Write(conn protocol.Conn, src []byte) (int, error) {
+func (s _AESSession) _Write(conn Zvpn.Conn, src []byte) (int, error) {
 	bloNum := uint64(len(src)/s.blockMode.BlockSize() + 1)
 	//first block is size
 	cypherText := make([]byte, s.blockMode.BlockSize())
@@ -90,7 +90,7 @@ func (s _AESSession) _Write(conn protocol.Conn, src []byte) (int, error) {
 
 // len(dst) must be larger than maxBloNum * max(blockSize),
 // which is 64 * 32 = 2048
-func (s _AESSession) Read(conn protocol.Conn, dst []byte) (int, error) {
+func (s _AESSession) Read(conn Zvpn.Conn, dst []byte) (int, error) {
 	//get bloNum
 	temp := make([]byte, s.blockMode.BlockSize())
 	if err := s.blockedRead(conn, temp); err != nil {
@@ -113,7 +113,7 @@ func (s _AESSession) Read(conn protocol.Conn, dst []byte) (int, error) {
 	return l - int(dst[l-1]), nil
 }
 
-func (s _AESSession) blockedRead(conn protocol.Conn, buf []byte) error {
+func (s _AESSession) blockedRead(conn Zvpn.Conn, buf []byte) error {
 	l, err := conn.Read(buf)
 	if err != nil {
 		return err
@@ -130,12 +130,12 @@ func (s _AESSession) blockedRead(conn protocol.Conn, buf []byte) error {
 
 //The key argument should be the AES key, either 16, 24,
 //or 32 bytes to select AES-128, AES-192, or AES-256.
-func newAES(key []byte) (Obfuscate, error) {
+func newAES(key []byte) (Zvpn.Obfuscate, error) {
 	b, err := aes.NewCipher(key)
 	return _AES{b}, err
 }
 
-func NewAES256(key []byte) Obfuscate {
+func NewAES256(key []byte) Zvpn.Obfuscate {
 	if len(key) != 32 {
 		panic("key length must equal 32 bytes")
 	}

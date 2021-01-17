@@ -3,7 +3,7 @@ package obfus
 import (
 	"crypto/rand"
 	"crypto/rc4"
-	"github.com/ZerQAQ/Zvpn/protocol"
+	"github.com/ZerQAQ/Zvpn"
 )
 
 const (
@@ -22,14 +22,14 @@ type _rc4Session struct {
 	cipher *rc4.Cipher
 }
 
-func (s _rc4) ClientHandShake(conn protocol.Conn) (Encrypter, Decrypter, error) {
+func (s _rc4) ClientHandShake(conn Zvpn.Conn) (Zvpn.Encrypter, Zvpn.Decrypter, error) {
 	return s.HandShake(conn)
 }
-func (s _rc4) ServerHandShake(conn protocol.Conn) (Encrypter, Decrypter, error) {
+func (s _rc4) ServerHandShake(conn Zvpn.Conn) (Zvpn.Encrypter, Zvpn.Decrypter, error) {
 	return s.HandShake(conn)
 }
 
-func (s _rc4) HandShake(conn protocol.Conn) (Encrypter, Decrypter, error) {
+func (s _rc4) HandShake(conn Zvpn.Conn) (Zvpn.Encrypter, Zvpn.Decrypter, error) {
 	secKey := make([]byte, secondaryKeySize)
 	_, err := rand.Read(secKey)
 	if err != nil {
@@ -56,12 +56,12 @@ func (s _rc4) HandShake(conn protocol.Conn) (Encrypter, Decrypter, error) {
 	return _rc4Session{e}, _rc4Session{d}, nil
 }
 
-func (s _rc4Session) Write(conn protocol.Conn, src []byte) (int, error) {
+func (s _rc4Session) Write(conn Zvpn.Conn, src []byte) (int, error) {
 	s.cipher.XORKeyStream(src, src)
 	return conn.Write(src)
 }
 
-func (s _rc4Session) Read(conn protocol.Conn, dst []byte) (l int, err error) {
+func (s _rc4Session) Read(conn Zvpn.Conn, dst []byte) (l int, err error) {
 	l, err = conn.Read(dst)
 	s.cipher.XORKeyStream(dst, dst[:l])
 	return
@@ -70,6 +70,6 @@ func (s _rc4Session) Read(conn protocol.Conn, dst []byte) (l int, err error) {
 //masKey的大小不超过RC4MaxMasterKeySize,越大越安全
 //the size of masKey is not bigger than RC4MaxMasterKeySize
 //bigger mean safer
-func NewRC4(mstKey []byte) Obfuscate {
+func NewRC4(mstKey []byte) Zvpn.Obfuscate {
 	return &_rc4{mstKey}
 }

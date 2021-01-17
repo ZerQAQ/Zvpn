@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/lib"
 	"log"
 	"net"
 )
@@ -13,11 +14,11 @@ type Sock5Proxy struct{}
 
 var ErrHandShakeFail = errors.New("sock5 handshake fail")
 
-func (Sock5Proxy) ClientHandshake(l, r Conn, p protocol.Protocol) (protocol.Conn, error) {
+func (Sock5Proxy) ClientHandshake(l, r Zvpn.Conn, p Zvpn.Protocol) (Zvpn.Conn, error) {
 	return r, nil
 }
 
-func (Sock5Proxy) ServerHandshake(conn protocol.Conn, p protocol.Protocol) (retConn protocol.Conn, retErr error) {
+func (Sock5Proxy) ServerHandshake(conn Zvpn.Conn, p Zvpn.Protocol) (retConn Zvpn.Conn, retErr error) {
 	retConn = nil
 	retErr = ErrHandShakeFail
 
