@@ -131,3 +131,5 @@ func (Sock5Proxy) ServerHandshake(conn Zvpn.Conn, p Zvpn.Protocol) (retConn Zvpn
 		return
 	}
 }
+
+var Sock5 Zvpn.Proxy = &Sock5Proxy{}

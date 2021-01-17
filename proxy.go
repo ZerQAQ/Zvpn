@@ -13,5 +13,3 @@ type Proxy interface {
 	// 代理协议握手，并且返回一个按客户端要求在服务端上建立的连接
 	ServerHandshake(Conn, Protocol) (Conn, error)
 }
-
-//var Sock5 Proxy = &Sock5Proxy{}

@@ -20,3 +20,5 @@ func (TCPProtocol) Bind(addr string) (Zvpn.Listener, error) {
 func (TCPProtocol) Dial(addr string) (Zvpn.Conn, error) {
 	return net.Dial("tcp", addr)
 }
+
+var TCP Zvpn.Protocol = &TCPProtocol{}

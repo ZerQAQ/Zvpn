@@ -20,5 +20,3 @@ type Protocol interface {
 	Bind(string) (Listener, error)
 	Dial(string) (Conn, error)
 }
-
-//var TCP Protocol = &TCPProtocol{}
