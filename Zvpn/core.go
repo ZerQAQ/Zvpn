@@ -3,8 +3,8 @@ package Zvpn
 import (
 	"errors"
 	"github.com/ZerQAQ/Zvpn/lib"
-	"github.com/ZerQAQ/Zvpn/protocol"
 	"io"
+	"net"
 	"strings"
 )
 
@@ -67,7 +67,7 @@ func (w WallCrosserImply) ClientConnHandler(conn Conn) {
 func (w *WallCrosserImply) StartClient(loc, serv string) {
 	w.localAddr = loc
 	w.serverAddr = serv
-	l, err := protocol.TCP.Bind(w.localAddr)
+	l, err := net.Listen("tcp4", w.localAddr)
 	if err != nil {
 		panic(err)
 	}

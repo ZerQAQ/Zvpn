@@ -71,8 +71,12 @@ import (
 	"github.com/ZerQAQ/Zvpn/obfus"
 	"github.com/ZerQAQ/Zvpn/protocol"
 	"github.com/ZerQAQ/Zvpn/proxy"
-	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/Zvpn"
 )
 
 w := Zvpn.NewWallerCrosser(protocol.TCP, proxy.Sock5, obfus.NewRC4(key))
+```
+随后在本机上调用startClient方法：
+```go
+w.startClient
 ```
