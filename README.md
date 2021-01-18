@@ -10,6 +10,7 @@
     "server_address": "0.0.0.0:1234",
     //对于客户端两个地址都必填，服务端可以只填server_address
     "protocol": "TCP",
+    //可选TCP或KCP
     "proxy": "sock5",
     //protocol和proxy都是固定选项
     "algorithm": "RC4",
