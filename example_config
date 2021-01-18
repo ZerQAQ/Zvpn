@@ -1,0 +1,9 @@
+{
+    "client_address": "0.0.0.0:1080",
+    "server_address": "0.0.0.0:1234",
+    "protocol": "TCP",
+    "proxy": "sock5",
+    "algorithm": "RC4",
+    "key": "d30948d73a274751db2354ec19a9a7a7439108bdfad0f6511b12a58b",
+    "role": "server or client"
+}
