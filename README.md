@@ -67,5 +67,12 @@ type Decrypter interface {
 ```
 你只需要自己实现这三个interface，并传入NewWallerCrosser中便可创建一个vpn实例。当然你也可以使用几个已经完成了的实现，Protocol可用的有TCP；Proxy可用的有Socks5；Obfuscate可用的有AES、RC4，加密协议均需要预先将秘钥储存在client和server本地。
 ```go
+import (
+	"github.com/ZerQAQ/Zvpn/obfus"
+	"github.com/ZerQAQ/Zvpn/protocol"
+	"github.com/ZerQAQ/Zvpn/proxy"
+	"github.com/ZerQAQ/Zvpn"
+)
 
+w := Zvpn.NewWallerCrosser(protocol.TCP, proxy.Sock5, obfus.NewRC4(key))
 ```

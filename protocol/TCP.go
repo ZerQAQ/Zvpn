@@ -1,14 +1,14 @@
 package protocol
 
 import (
-	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/Zvpn"
 	"net"
 )
 
 type TCPListener struct{ l net.Listener }
 
 func (l TCPListener) Accept() (Zvpn.Conn, error) { return l.l.Accept() }
-func (l TCPListener) Close() error          { return l.l.Close() }
+func (l TCPListener) Close() error               { return l.l.Close() }
 
 type TCPProtocol struct{}
 

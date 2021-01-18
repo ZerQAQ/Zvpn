@@ -1,16 +1,12 @@
-package core
-
-import (
-	"github.com/ZerQAQ/Zvpn"
-)
+package Zvpn
 
 type WallerCrosser interface {
 	StartClient(localAddr, ServerAddr string)
 	StartServer(addr string)
 }
 
-func NewWallerCrosser(protocol Zvpn.Protocol,
-	proxy Zvpn.Proxy, obfuscate Zvpn.Obfuscate) WallerCrosser {
+func NewWallerCrosser(protocol Protocol,
+	proxy Proxy, obfuscate Obfuscate) WallerCrosser {
 	return &WallCrosserImply{
 		ProtocolWrapper{protocol, obfuscate},
 		proxy, "", "",

@@ -1,7 +1,7 @@
 package obfus
 
 import (
-	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/Zvpn"
 )
 
 type DoNothing struct{}

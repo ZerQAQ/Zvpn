@@ -4,7 +4,7 @@ import (
 	"encoding/binary"
 	"errors"
 	"fmt"
-	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/Zvpn"
 	"github.com/ZerQAQ/Zvpn/lib"
 	"log"
 	"net"

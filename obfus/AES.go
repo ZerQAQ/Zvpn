@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
-	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/Zvpn"
 	"github.com/ZerQAQ/Zvpn/lib"
 )
 

@@ -3,7 +3,7 @@ package obfus
 import (
 	"crypto/rand"
 	"crypto/rc4"
-	"github.com/ZerQAQ/Zvpn"
+	"github.com/ZerQAQ/Zvpn/Zvpn"
 )
 
 const (
