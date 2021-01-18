@@ -78,5 +78,18 @@ w := Zvpn.NewWallerCrosser(protocol.TCP, proxy.Sock5, obfus.NewRC4(key))
 ```
 随后在本机上调用startClient方法：
 ```go
-w.startClient
+w.StartClient(CliAddr, SerAddr)
+// for example:
+// CliAddr = 127.0.0.1:1080
+// serAddr = 10.17.24.234:2080
 ```
+在服务端上调用startServer方法:
+```go
+w.StartServer(Addr)
+// for example:
+// in 10.17.24.234
+// Addr = 0.0.0.0:2080
+```
+便可以在本机上通过socks5://10.17.24.234:1080代理上网了
+
+一个简单的二进制文件封装见release分支
