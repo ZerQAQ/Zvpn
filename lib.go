@@ -21,6 +21,7 @@ var ProxyMap = map[string]Zvpn.Proxy{
 
 var ProtocolMap = map[string]Zvpn.Protocol{
 	"TCP": protocol.TCP, "tcp": protocol.TCP, "Tcp": protocol.TCP,
+	"KCP": KCP, "kcp": KCP, "Kcp": KCP,
 }
 
 type Config struct {
