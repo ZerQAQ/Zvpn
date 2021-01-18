@@ -1,5 +1,7 @@
 package Zvpn
 
+import "net"
+
 func NewProtocol(pro Protocol, o Obfuscate) Protocol {
 	return ProtocolWrapper{pro, o}
 }
@@ -56,3 +58,13 @@ func (c ConnWrapper) Write(buf []byte) (retLen int, retErr error) {
 	return c.e.Write(c.conn, buf)
 }
 func (c ConnWrapper) Close() error { return c.conn.Close() }
+
+
+type NetListenerWrapper struct{L net.Listener}
+
+func (l NetListenerWrapper) Accept() (Conn, error) {
+	return l.Accept()
+}
+func (l NetListenerWrapper) Close() error {
+	return l.Close()
+}
