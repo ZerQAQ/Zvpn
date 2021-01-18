@@ -1,12 +1,12 @@
 package Zvpn
 
-type WallerCrosser interface {
+type WallCrosser interface {
 	StartClient(localAddr, ServerAddr string)
 	StartServer(addr string)
 }
 
-func NewWallerCrosser(protocol Protocol,
-	proxy Proxy, obfuscate Obfuscate) WallerCrosser {
+func NewWallCrosser(protocol Protocol,
+	proxy Proxy, obfuscate Obfuscate) WallCrosser {
 	return &WallCrosserImply{
 		ProtocolWrapper{protocol, obfuscate},
 		proxy, "", "",
