@@ -63,8 +63,8 @@ func (c ConnWrapper) Close() error { return c.conn.Close() }
 type NetListenerWrapper struct{L net.Listener}
 
 func (l NetListenerWrapper) Accept() (Conn, error) {
-	return l.Accept()
+	return l.L.Accept()
 }
 func (l NetListenerWrapper) Close() error {
-	return l.Close()
+	return l.L.Close()
 }
