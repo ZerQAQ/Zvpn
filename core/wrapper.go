@@ -1,24 +1,23 @@
 package core
 
 import (
-	"github.com/ZerQAQ/Zvpn/obfus"
-	"github.com/ZerQAQ/Zvpn/protocol"
+	"github.com/ZerQAQ/Zvpn"
 )
 
-func NewProtocol(pro protocol.Protocol, o obfus.Obfuscate) protocol.Protocol {
+func NewProtocol(pro Zvpn.Protocol, o Zvpn.Obfuscate) Zvpn.Protocol {
 	return ProtocolWrapper{pro, o}
 }
 
 type ProtocolWrapper struct {
-	pro protocol.Protocol
-	o   obfus.Obfuscate
+	pro Zvpn.Protocol
+	o   Zvpn.Obfuscate
 }
 
-func (p ProtocolWrapper) Bind(addr string) (listener protocol.Listener, err error) {
+func (p ProtocolWrapper) Bind(addr string) (listener Zvpn.Listener, err error) {
 	listener, err = p.pro.Bind(addr)
 	return ListerWrapper{listener, p.o}, err
 }
-func (p ProtocolWrapper) Dial(addr string) (conn protocol.Conn, err error) {
+func (p ProtocolWrapper) Dial(addr string) (conn Zvpn.Conn, err error) {
 	conn, err = p.pro.Dial(addr)
 	if err != nil {
 		return nil, err
@@ -31,11 +30,11 @@ func (p ProtocolWrapper) Dial(addr string) (conn protocol.Conn, err error) {
 }
 
 type ListerWrapper struct {
-	listener protocol.Listener
-	o        obfus.Obfuscate
+	listener Zvpn.Listener
+	o        Zvpn.Obfuscate
 }
 
-func (l ListerWrapper) Accept() (protocol.Conn, error) {
+func (l ListerWrapper) Accept() (Zvpn.Conn, error) {
 	conn, err := l.listener.Accept()
 	if err != nil {
 		return nil, err
@@ -49,9 +48,9 @@ func (l ListerWrapper) Accept() (protocol.Conn, error) {
 func (l ListerWrapper) Close() error { return l.listener.Close() }
 
 type ConnWrapper struct {
-	conn protocol.Conn
-	e    obfus.Encrypter
-	d    obfus.Decrypter
+	conn Zvpn.Conn
+	e    Zvpn.Encrypter
+	d    Zvpn.Decrypter
 }
 
 func (c ConnWrapper) Read(buf []byte) (retLen int, retErr error) {

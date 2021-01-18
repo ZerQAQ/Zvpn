@@ -1,9 +1,7 @@
 package core
 
 import (
-	"github.com/ZerQAQ/Zvpn/obfus"
-	"github.com/ZerQAQ/Zvpn/protocol"
-	"github.com/ZerQAQ/Zvpn/proxy"
+	"github.com/ZerQAQ/Zvpn"
 )
 
 type WallerCrosser interface {
@@ -11,8 +9,8 @@ type WallerCrosser interface {
 	StartServer(addr string)
 }
 
-func NewWallerCrosser(protocol protocol.Protocol,
-	proxy proxy.Proxy, obfuscate obfus.Obfuscate) WallerCrosser {
+func NewWallerCrosser(protocol Zvpn.Protocol,
+	proxy Zvpn.Proxy, obfuscate Zvpn.Obfuscate) WallerCrosser {
 	return &WallCrosserImply{
 		ProtocolWrapper{protocol, obfuscate},
 		proxy, "", "",

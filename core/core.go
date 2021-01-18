@@ -2,18 +2,18 @@ package core
 
 import (
 	"errors"
-	"io"
-	"strings"
+	"github.com/ZerQAQ/Zvpn"
 	"github.com/ZerQAQ/Zvpn/lib"
 	"github.com/ZerQAQ/Zvpn/protocol"
-	"github.com/ZerQAQ/Zvpn/proxy"
+	"io"
+	"strings"
 )
 
 func errIgnoreChecker(err error) bool {
 	return err != nil && (err == io.EOF || strings.HasSuffix(err.Error(), "closed network connection"))
 }
 
-func BuildPipe(src protocol.Conn, des protocol.Conn) error {
+func BuildPipe(src Zvpn.Conn, des Zvpn.Conn) error {
 	defer src.Close()
 	defer des.Close()
 
@@ -24,7 +24,7 @@ func BuildPipe(src protocol.Conn, des protocol.Conn) error {
 	return errors.New("in Pipe: " + err.Error())
 }
 
-func ConnCopy(src protocol.Conn, des protocol.Conn, errCh chan error) {
+func ConnCopy(src Zvpn.Conn, des Zvpn.Conn, errCh chan error) {
 	buf := make([]byte, 1<<17)
 	for {
 		rLen, err := src.Read(buf)
@@ -41,13 +41,13 @@ func ConnCopy(src protocol.Conn, des protocol.Conn, errCh chan error) {
 }
 
 type WallCrosserImply struct {
-	protocol   protocol.Protocol
-	proxy      proxy.Proxy
+	protocol   Zvpn.Protocol
+	proxy      Zvpn.Proxy
 	localAddr  string
 	serverAddr string
 }
 
-func (w WallCrosserImply) ClientConnHandler(conn protocol.Conn) {
+func (w WallCrosserImply) ClientConnHandler(conn Zvpn.Conn) {
 	//connect the server
 	remoteConn, err := w.protocol.Dial(w.serverAddr)
 	if lib.ErrHandler("client", err) {
@@ -87,7 +87,7 @@ func (w *WallCrosserImply) StartClient(loc, serv string) {
 	}
 }
 
-func (w WallCrosserImply) ServerConnHandler(conn protocol.Conn) {
+func (w WallCrosserImply) ServerConnHandler(conn Zvpn.Conn) {
 	//build the conn the client want
 	remoteConn, err := w.proxy.ServerHandshake(conn, w.protocol)
 	if lib.ErrHandler("server proxy handshake", err) {
